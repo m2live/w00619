@@ -1,10 +1,162 @@
 {
     "meta": {
-        "version": "1.0.4/1",
+        "version": "1.0.4/1;workstack=3",
         "admin": "",
         "defaultHosting": ""
     },
-    "hosting": [],
+    "hosting": [
+        {
+            "listen": "*:80",
+            "urlRewrites": [
+                {
+                    "pattern": "image.winesoft.co.kr/image",
+                    "replace": "image.winesoft.co.kr/dims"
+                }
+            ],
+            "functions": {
+                "contents": {
+                    "dims": {
+                        "meta": {
+                            "maxSourceSize": 2,
+                            "keyword": "dims",
+                            "minSourceSize": 0,
+                            "enable": true
+                        }
+                    }
+                },
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "value": "image.winesoft.co.kr.origin.m2",
+                                    "enable": true
+                                }
+                            },
+                            "session": {
+                                "receiveTimeout": 300,
+                                "reuseTimeout": 60,
+                                "connectTimeout": 3,
+                                "busyCount": 0
+                            },
+                            "health": {
+                                "exclusion": {
+                                    "count": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "127.0.0.1"
+                ]
+            },
+            "name": "image.winesoft.co.kr",
+            "enable": true
+        },
+        {
+            "listen": "*:80",
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "image.winesoft.co.kr.first.origin.m2"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "127.0.0.1"
+                ]
+            },
+            "mode": {
+                "instant": true
+            },
+            "name": "image.winesoft.co.kr.origin.m2",
+            "enable": true
+        },
+        {
+            "listen": "*:80",
+            "name": "image.winesoft.co.kr.first.origin.m2",
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "value": "image.winesoft.co.kr",
+                                    "enable": true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "fallbacks": {
+                "enable": true,
+                "matchingList": [
+                    {
+                        "resCodes": [
+                            "4xx",
+                            "5xx"
+                        ],
+                        "replace": "image.winesoft.co.kr.second.origin.m2/#1",
+                        "pattern": "$URL[/(.*)]"
+                    }
+                ]
+            },
+            "mode": {
+                "instant": true
+            },
+            "origin": {
+                "address": [
+                    "image3.winesoft.co.kr",
+                    "192.168.0.1"
+                ],
+                "protocol": "http"
+            },
+            "enable": true
+        },
+        {
+            "listen": "*:80",
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "image3.winesoft.co.kr",
+                    "192.168.0.1"
+                ]
+            },
+            "mode": {
+                "instant": true
+            },
+            "name": "image.winesoft.co.kr.second.origin.m2",
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "image.winesoft.co.kr"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "enable": true
+        }
+    ],
     "env": {
         "management": {
             "api": {
