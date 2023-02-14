@@ -1,223 +1,114 @@
 {
     "meta": {
-        "version": "1.0.4/1;workstack=24",
+        "version": "1.2.3/1;workstack=27",
+        "group": "",
+        "branch": "",
         "admin": "",
-        "defaultHosting": ""
-    },
-    "hosting": [
-        {
-            "listen": "*:80",
-            "functions": {
-                "network": {
-                    "http": {
-                        "backEnd": {
-                            "headers": {
-                                "host": {
-                                    "value": "www.winesoft.co.kr.origin.m2",
-                                    "enable": true
-                                }
-                            },
-                            "session": {
-                                "reuseTimeout": 60,
-                                "receiveTimeout": 300,
-                                "busyCount": 0,
-                                "connectTimeout": 3
-                            },
-                            "health": {
-                                "exclusion": {
-                                    "count": 0
-                                }
-                            }
-                        }
-                    }
-                },
-                "contents": {
-                    "dims": {
-                        "meta": {
-                            "minSourceSize": 0,
-                            "enable": true,
-                            "maxSourceSize": 2,
-                            "keyword": "dims"
-                        }
-                    }
+        "defaultHosting": "",
+        "setting": {
+            "history": {
+                "retention": {
+                    "days": 60,
+                    "count": 100,
+                    "size": 10
                 }
-            },
-            "origin": {
-                "protocol": "http",
-                "address": [
-                    "127.0.0.1"
-                ]
-            },
-            "name": "www.winesoft.co.kr",
-            "urlRewrites": [
-                {
-                    "pattern": "image.winesoft.co.kr/image",
-                    "replace": "image.winesoft.co.kr/dims"
-                }
-            ],
-            "enable": true
-        },
-        {
-            "listen": "*:80",
-            "mode": {
-                "instant": true
-            },
-            "origin": {
-                "address": [
-                    "127.0.0.1"
-                ],
-                "protocol": "http"
-            },
-            "name": "www.winesoft.co.kr.origin.m2",
-            "functions": {
-                "network": {
-                    "http": {
-                        "backEnd": {
-                            "headers": {
-                                "host": {
-                                    "enable": true,
-                                    "value": "www.winesoft.co.kr.first.origin.m2"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "enable": true
-        },
-        {
-            "listen": "*:80",
-            "origin": {
-                "protocol": "http",
-                "address": [
-                    "www.g2.com"
-                ]
-            },
-            "name": "www.winesoft.co.kr.first.origin.m2",
-            "functions": {
-                "network": {
-                    "http": {
-                        "backEnd": {
-                            "headers": {
-                                "host": {
-                                    "value": "www.winesoft.co.kr",
-                                    "enable": true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "fallbacks": {
-                "matchingList": [
-                    {
-                        "replace": "www.winesoft.co.kr.second.origin.m2/#1",
-                        "resCodes": [
-                            "4xx",
-                            "5xx"
-                        ],
-                        "pattern": "$URL[/(.*)]"
-                    }
-                ],
-                "enable": true
-            },
-            "mode": {
-                "instant": true
-            },
-            "enable": true
-        },
-        {
-            "listen": "*:80",
-            "mode": {
-                "instant": true
-            },
-            "origin": {
-                "protocol": "http",
-                "address": [
-                    "www.daum.net"
-                ]
-            },
-            "name": "www.winesoft.co.kr.second.origin.m2",
-            "functions": {
-                "network": {
-                    "http": {
-                        "backEnd": {
-                            "headers": {
-                                "host": {
-                                    "value": "www.winesoft.co.kr",
-                                    "enable": true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "enable": true
+            }
         }
-    ],
+    },
     "env": {
         "management": {
             "api": {
                 "port": 10040,
                 "defaultRole": "admin",
                 "multipartName": "settingFile",
-                "allowList": []
-            },
-            "server": {
-                "enable": true,
-                "connection": [
+                "allowList": [],
+                "roles": [
                     {
-                        "name": "myFirebase",
-                        "type": "firebasePubsub",
-                        "info": {
-                            "apiKey": "AIzaSyDDLFgv6PQnLyvdknDiGTB4JVGws5jZeTA",
-                            "authDomain": "stg-m2live-api.firebaseapp.com",
-                            "databaseUrl": "https://stg-m2live-api.firebaseio.com",
-                            "projectId": "stg-m2live-api",
-                            "storageBucket": "stg-m2live-api.appspot.com",
-                            "messagingSenderId": "370817246668",
-                            "appId": "1:370817246668:web:d8546f78b2330d6a396969"
+                        "name": "admin",
+                        "permissions": {
+                            "enableSetting": true,
+                            "enablePurge": true,
+                            "enableMetric": true,
+                            "enableGraph": true,
+                            "enableMonitoring": true,
+                            "enableInstall": false,
+                            "enableRestart": false,
+                            "enableGet": true
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "permissions": {
+                            "enableMetric": true,
+                            "enableGraph": true,
+                            "enableMonitoring": true,
+                            "enableGet": true
                         }
                     }
-                ],
+                ]
+            },
+            "server": {
+                "enable": false,
+                "connection": [],
                 "features": {
                     "setting": {
-                        "enable": true,
+                        "enable": false,
                         "feed": {
-                            "type": "firestore",
-                            "info": {
-                                "connect": "myFirebase",
-                                "doc": "m2nodes/#m2live.nodeId/events"
-                            }
+                            "type": "",
+                            "info": {}
                         },
                         "feedback": {
-                            "type": "firestore",
-                            "info": {
-                                "connect": "myFirebase",
-                                "doc": "m2nodes/#m2live.nodeId/feedbacks"
-                            },
+                            "type": "",
+                            "info": {},
                             "uploadSetting": true
                         }
                     },
                     "purge": {
                         "enable": false,
-                        "workerCount": 2
+                        "workerCount": 2,
+                        "feed": {
+                            "type": "",
+                            "info": {}
+                        },
+                        "feedback": {
+                            "type": "",
+                            "info": {}
+                        }
                     },
                     "heartbeat": {
-                        "enable": true,
+                        "enable": false,
                         "feedback": {
-                            "type": "firestore",
-                            "info": {
-                                "connect": "myFirebase",
-                                "doc": "m2nodes/#m2live.nodeId/heartbeats",
-                                "schedule": "*/15 * * * * *",
-                                "metrics": {
-                                    "system": true,
-                                    "rt": true,
-                                    "hosting": true,
-                                    "node": true
-                                }
-                            }
+                            "type": "",
+                            "info": {}
+                        }
+                    },
+                    "nodelist": {
+                        "enable": false,
+                        "feed": {
+                            "type": "",
+                            "info": {}
+                        },
+                        "feedback": {
+                            "type": "",
+                            "info": {}
+                        }
+                    }
+                },
+                "events": {
+                    "onSettingLoad": {
+                        "backup": {
+                            "enable": false,
+                            "hostname": "",
+                            "auto": true,
+                            "connect": "",
+                            "path": "",
+                            "timeout": 30
+                        }
+                    },
+                    "onPurgeRequest": {
+                        "propagation": {
+                            "enable": false,
+                            "nodelist": []
                         }
                     }
                 }
@@ -228,6 +119,9 @@
                 "totalUsableRatio": 100,
                 "workingRatio": 60,
                 "partition": "1:1"
+            },
+            "coreWorkers": {
+                "count": 0
             },
             "inspection": {
                 "process": {
@@ -266,11 +160,11 @@
             "geoip": {
                 "enable": false,
                 "ver": "geoip",
-                "path": "/var/m2/geopi/"
+                "path": ""
             },
             "pipelineSession": {
-                "internalTimeout": 10,
-                "externalTimeout": 300,
+                "internalTimeout": 300,
+                "externalTimeout": 10,
                 "listenTimeout": 10,
                 "keepAlive": {
                     "enable": true,
@@ -279,12 +173,24 @@
             }
         },
         "log": {
+            "meta": {
+                "dir": "m2log"
+            },
             "info": {
                 "enable": true,
                 "rolling": {
                     "size": 1
                 },
                 "retention": 5,
+                "compression": false
+            },
+            "error": {
+                "enable": true,
+                "rolling": {
+                    "size": 1,
+                    "time": 1440
+                },
+                "retention": 10,
                 "compression": false
             },
             "system": {
@@ -303,6 +209,10 @@
                 "retention": 5,
                 "warning": false,
                 "compression": false
+            },
+            "repository": {
+                "concurrent": 1,
+                "list": []
             }
         },
         "rt": {
@@ -320,27 +230,6 @@
                     "fileCount": 0,
                     "defaultDiskCleanupSize": 0
                 }
-            },
-            "location": {
-                "protocol": "http",
-                "ip": "127.0.0.1",
-                "port": 80,
-                "dir": "/usr/local/m2/rt"
-            },
-            "config": {
-                "latest": "/conf/latest",
-                "global": "/conf/server.xml",
-                "vhosts": "/conf/vhosts.xml",
-                "runtime": "/addons/m2/runtime",
-                "refresh": {
-                    "enable": true,
-                    "interval": 5000
-                }
-            },
-            "report": {
-                "enable": true,
-                "path": "/addons/m2/latest?data=",
-                "interval": "4h"
             },
             "properties": {
                 "memoryRatioContents": 50,
@@ -368,11 +257,7 @@
                 "headless": true,
                 "enableCache": true
             },
-            "options": [
-                "--proxy-server=",
-                "--media-cache-size=0",
-                "--disk-cache-size=0"
-            ],
+            "options": [],
             "pagePool": {
                 "pageReuseCount": 10000,
                 "useRandomCount": true,
@@ -389,7 +274,7 @@
                     "enable": false,
                     "keyword": "dims",
                     "minSourceSize": 0,
-                    "maxSourceSize": 10
+                    "maxSourceSize": 30
                 },
                 "quality": {
                     "max": 99,
@@ -460,43 +345,25 @@
             "mp3edit": {
                 "meta": {
                     "enable": false,
-                    "keyword": "mp3edit",
-                    "segmentType": "ts",
-                    "insertPcr": false
-                },
-                "hls": {
-                    "duration": 10,
-                    "indexName": "index.m3u8",
-                    "playlist": {
-                        "version": 3,
-                        "alternates": false,
-                        "alternatesName": "playlist.m3u8",
-                        "sequence": 0
-                    }
+                    "keyword": "mp3edit"
                 }
             },
             "mp4edit": {
                 "meta": {
                     "enable": false,
-                    "keyword": "mp4edit",
-                    "useAllTracks": false,
-                    "trimMaxRatio": 50
+                    "keyword": "mp4edit"
                 },
-                "hls": {
-                    "duration": 10,
-                    "indexName": "index.m3u8",
-                    "playlist": {
-                        "version": 3,
-                        "alternates": false,
-                        "alternatesName": "playlist.m3u8",
-                        "sequence": 0
-                    }
+                "trim": {
+                    "useAllTracks": false,
+                    "maxRatio": 50
                 }
             },
-            "pageDesk": {
+            "pagedesk": {
                 "meta": {
                     "enable": false,
-                    "keyword": "pagedesk"
+                    "keyword": "pagedesk",
+                    "maxSourceSize": 1,
+                    "maxDomSourceSize": 0
                 },
                 "replace": {
                     "pre": {
@@ -528,37 +395,7 @@
                     "remove": {
                         "enable": false,
                         "includeChild": true,
-                        "elements": [
-                            "applet",
-                            "acronym",
-                            "bgsound",
-                            "dir",
-                            "frame",
-                            "frameset",
-                            "noframes",
-                            "hgroup",
-                            "isindex",
-                            "listing",
-                            "nextid",
-                            "noembed",
-                            "plaintext",
-                            "strike",
-                            "xmp",
-                            "basefont",
-                            "big",
-                            "blink",
-                            "center",
-                            "font",
-                            "marquee",
-                            "menu",
-                            "menuitem",
-                            "multicol",
-                            "nobr",
-                            "spacer",
-                            "tt",
-                            "rb",
-                            "rtc"
-                        ]
+                        "elements": []
                     },
                     "tags": {
                         "anchor": {
@@ -566,79 +403,31 @@
                             "enableLink": true
                         }
                     },
-                    "sizeLimit": {
-                        "enable": true,
-                        "max": 1048576,
-                        "timing": "preprocess"
-                    }
-                }
-            },
-            "pageEffector": {
-                "responsive": {
-                    "enable": false,
-                    "width": 800
-                },
-                "viewMore": {
-                    "enable": false,
-                    "height": {
-                        "initial": 900,
-                        "margin": 0
-                    }
-                },
-                "pinchZoom": {
-                    "enable": false,
-                    "selector": null
-                },
-                "iframeAutoHeight": {
-                    "enable": false,
-                    "selector": "iframe",
-                    "library": {
-                        "parent": {
+                    "style": {
+                        "isolate": {
                             "enable": false,
-                            "option": null
-                        },
-                        "child": {
-                            "enable": false
+                            "selector": null
                         }
-                    }
-                },
-                "image": {
-                    "meta": {
-                        "domain": null,
-                        "dimsKeyword": "dims"
                     },
-                    "optimize": {
+                    "refctrl": {
                         "enable": false,
-                        "selector": null
-                    },
-                    "split": {
-                        "enable": false,
-                        "minHeight": 800
-                    },
-                    "fallback": {
-                        "enable": true,
-                        "method": "redirect",
-                        "conditions": [
-                            "abort",
-                            "4xx",
-                            "5xx"
-                        ]
+                        "mode": "whitelist",
+                        "domains": [],
+                        "tags": []
                     }
                 }
             },
-            "pageMixed": {
+            "pagemixed": {
                 "meta": {
-                    "enable": false
+                    "enable": false,
+                    "keyword": "pagemixed"
                 },
                 "traffics": {
                     "rebound": {
                         "domain": null,
                         "tags": {
                             "domain": null,
-                            "targets": [
-                                "script.src",
-                                "link.href"
-                            ]
+                            "targets": []
                         }
                     },
                     "resource": {
@@ -677,18 +466,7 @@
                         "enable": true,
                         "proxying": "http"
                     },
-                    "targetTags": [
-                        "img.src",
-                        "img.data-src",
-                        "input.src",
-                        "video.src",
-                        "source.src",
-                        "iframe.src",
-                        "link.href",
-                        "script.src",
-                        "a.href",
-                        "embed.src"
-                    ]
+                    "targetTags": []
                 },
                 "options": {
                     "anchor": {
@@ -706,7 +484,7 @@
                         "enable": false,
                         "originProtocol": "http"
                     },
-                    "encrpytSrcUrl": {
+                    "encryptSrcUrl": {
                         "enable": false,
                         "algorithm": null,
                         "key": null,
@@ -720,15 +498,159 @@
                             "enable": false
                         }
                     }
+                }
+            },
+            "pagefx": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "pagefx"
                 },
-                "fallback": {
-                    "enable": true,
-                    "method": "redirect",
-                    "conditions": [
-                        "abort",
-                        "4xx",
-                        "5xx"
-                    ]
+                "frontend": {
+                    "selector": null,
+                    "responsive": {
+                        "enable": false,
+                        "width": 800
+                    },
+                    "viewmore": {
+                        "enable": false,
+                        "style": null,
+                        "height": {
+                            "initial": 900,
+                            "margin": 0
+                        },
+                        "button": {
+                            "inactiveTitle": null,
+                            "activeTitle": null,
+                            "style": null
+                        }
+                    },
+                    "pinchzoom": {
+                        "enable": false,
+                        "selectors": []
+                    },
+                    "iframeAutoHeight": {
+                        "enable": false,
+                        "selector": "iframe",
+                        "library": {
+                            "parent": {
+                                "enable": false,
+                                "option": null
+                            },
+                            "child": {
+                                "enable": false
+                            }
+                        }
+                    }
+                },
+                "backend": {
+                    "selector": null,
+                    "img": {
+                        "selector": null,
+                        "domain": null,
+                        "dims": "dims",
+                        "optimg": {
+                            "enable": true,
+                            "selector": null,
+                            "src": {
+                                "size": 0,
+                                "width": 0,
+                                "height": 0,
+                                "formats": null,
+                                "data-attrs": [
+                                    "data-src"
+                                ]
+                            },
+                            "dest": {
+                                "formats": null,
+                                "maxwidth": 1200,
+                                "optimize": "auto",
+                                "loading": "lazy",
+                                "responsive": {
+                                    "picture": "auto",
+                                    "media": {
+                                        "usemap": "auto",
+                                        "min-width": {
+                                            "enable": false,
+                                            "values": []
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "splitimg": {
+                            "enable": true,
+                            "selector": null,
+                            "src": {
+                                "size": 102400,
+                                "width": 0,
+                                "height": 2000,
+                                "formats": null,
+                                "data-attrs": [
+                                    "data-src"
+                                ]
+                            },
+                            "dest": {
+                                "splitHeight": 1200,
+                                "usemap": "none"
+                            }
+                        },
+                        "gif2video": {
+                            "enable": true,
+                            "selector": null,
+                            "transcoder": "xcdr",
+                            "src": {
+                                "size": 102400,
+                                "width": 100,
+                                "height": 100
+                            },
+                            "dest": {
+                                "formats": [
+                                    "mp4"
+                                ],
+                                "attrs": [
+                                    "autoplay",
+                                    "loop",
+                                    "muted",
+                                    "playsinline"
+                                ],
+                                "responsive": {
+                                    "video": "auto"
+                                }
+                            }
+                        }
+                    },
+                    "video": {
+                        "selector": null,
+                        "domain": null,
+                        "transcoder": "xcdr",
+                        "optvideo": {
+                            "enable": true,
+                            "selector": null,
+                            "src": {
+                                "size": 102400,
+                                "width": 100,
+                                "height": 100,
+                                "bitrate": 102400
+                            },
+                            "dest": {
+                                "presets": [
+                                    {
+                                        "name": "_720p",
+                                        "type": "video/mp4"
+                                    }
+                                ],
+                                "attrs": [
+                                    "autoplay",
+                                    "loop",
+                                    "muted",
+                                    "playsinline"
+                                ],
+                                "responsive": {
+                                    "video": "auto"
+                                }
+                            }
+                        }
+                    }
                 }
             },
             "unzip": {
@@ -739,6 +661,19 @@
                 "contentTypes": {
                     "default": "application/octet-stream",
                     "map": []
+                }
+            },
+            "webfont": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "wfnt"
+                },
+                "embed": []
+            },
+            "transcoder": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "xcdr"
                 }
             }
         },
@@ -791,20 +726,20 @@
                     },
                     "queryString": {
                         "enable": true,
-                        "matchingList": [],
-                        "acceptEncoding": {
-                            "enable": true
-                        },
-                        "postMethod": {
-                            "enable": false,
-                            "bodySensitive": true,
-                            "bodyContentLengthMax": 102400,
-                            "matchingList": []
-                        },
-                        "vary": {
-                            "enable": false,
-                            "headers": []
-                        }
+                        "matchingList": []
+                    },
+                    "acceptEncoding": {
+                        "enable": true
+                    },
+                    "postMethod": {
+                        "enable": false,
+                        "bodySensitive": true,
+                        "bodyContentLengthMax": 102400,
+                        "matchingList": []
+                    },
+                    "vary": {
+                        "enable": false,
+                        "headers": []
                     }
                 },
                 "purge": {
@@ -871,7 +806,7 @@
                         "denialCode": 401,
                         "matchingList": []
                     },
-                    "optionRequest": {
+                    "optionsRequest": {
                         "enable": true
                     },
                     "bypass": {
@@ -903,6 +838,7 @@
                         "enable": false,
                         "minSrcSize": 2,
                         "maxSrcSize": 2048,
+                        "matchingList": [],
                         "gzip": {
                             "level": 6
                         },
@@ -913,7 +849,7 @@
                     },
                     "customErrorPage": {
                         "resCode": 0,
-                        "path": "/error.html"
+                        "path": ""
                     }
                 },
                 "backEnd": {
@@ -923,7 +859,10 @@
                         "receiveTimeout": 10,
                         "reuseTimeout": 60,
                         "balanceMode": "roundrobin",
-                        "hashUrlIgnoreList": null
+                        "maxUnknownSize": 32,
+                        "hash": {
+                            "urlIgnoreList": null
+                        }
                     },
                     "dns": {
                         "ttlMin": 0,
@@ -999,6 +938,46 @@
                         "url": []
                     }
                 }
+            },
+            "proxy": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "proxy"
+                }
+            },
+            "mp4hls": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "mp4hls"
+                },
+                "hls": {
+                    "duration": 10,
+                    "indexName": "index.m3u8",
+                    "playlist": {
+                        "version": 3,
+                        "alternates": false,
+                        "alternatesName": "playlist.m3u8",
+                        "sequence": 0
+                    }
+                }
+            },
+            "mp3hls": {
+                "meta": {
+                    "enable": false,
+                    "keyword": "mp3hls"
+                },
+                "hls": {
+                    "duration": 10,
+                    "indexName": "index.m3u8",
+                    "segmentType": "ts",
+                    "insertPcr": false,
+                    "playlist": {
+                        "version": 3,
+                        "alternates": false,
+                        "alternatesName": "playlist.m3u8",
+                        "sequence": 0
+                    }
+                }
             }
         },
         "operations": {
@@ -1057,6 +1036,262 @@
                     "passive": false,
                     "active": false
                 }
+            },
+            "metrics": {
+                "histograms": [
+                    {
+                        "metric": "m2_http_frontend_tx_ttfb_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_frontend_tx_complete_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_frontend_responses_cl_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_frontend_responses_object_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_backend_tx_ttfb_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_backend_tx_complete_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_backend_responses_cl_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_http_backend_responses_object_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_cache_obj_create_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_cache_obj_erase_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000,
+                            1000000000,
+                            10000000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_init_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_complete_seconds",
+                        "buckets": [
+                            0.001,
+                            0.005,
+                            0.01,
+                            0.05,
+                            0.1,
+                            0.5,
+                            1,
+                            5,
+                            10
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_src_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_src_width_total",
+                        "buckets": [
+                            100,
+                            250,
+                            500,
+                            750,
+                            1000,
+                            1500
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_src_height_total",
+                        "buckets": [
+                            100,
+                            250,
+                            500,
+                            750,
+                            1000,
+                            1500,
+                            2500,
+                            5000,
+                            10000,
+                            20000,
+                            40000
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_dest_size_bytes",
+                        "buckets": [
+                            100,
+                            1000,
+                            10000,
+                            100000,
+                            1000000,
+                            10000000,
+                            100000000
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_dest_width_total",
+                        "buckets": [
+                            100,
+                            250,
+                            500,
+                            750,
+                            1000,
+                            1500
+                        ]
+                    },
+                    {
+                        "metric": "m2_dims_dest_height_total",
+                        "buckets": [
+                            100,
+                            250,
+                            500,
+                            750,
+                            1000,
+                            1500,
+                            2500,
+                            5000,
+                            10000,
+                            20000,
+                            40000
+                        ]
+                    }
+                ]
+            },
+            "chaining": {
+                "pipe": {
+                    "flags": "nolog;nostats;nourlrewrite;nosessionurlrewrite;recursive;reqfilemeta;",
+                    "conflict": "skip"
+                }
             }
         },
         "backend": {
@@ -1068,5 +1303,148 @@
                 "endpoints": []
             }
         }
-    }
+    },
+    "hosting": [
+        {
+            "functions": {
+                "contents": {
+                    "dims": {
+                        "meta": {
+                            "enable": true,
+                            "keyword": "dims",
+                            "minSourceSize": 0,
+                            "maxSourceSize": 2
+                        }
+                    }
+                },
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "health": {
+                                "exclusion": {
+                                    "count": 0
+                                }
+                            },
+                            "session": {
+                                "connectTimeout": 3,
+                                "receiveTimeout": 300,
+                                "reuseTimeout": 60,
+                                "busyCount": 0
+                            },
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "www.winesoft.co.kr.origin.m2"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "name": "www.winesoft.co.kr",
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "127.0.0.1"
+                ]
+            },
+            "urlRewrites": [
+                {
+                    "pattern": "image.winesoft.co.kr/image",
+                    "replace": "image.winesoft.co.kr/dims"
+                }
+            ]
+        },
+        {
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "www.winesoft.co.kr.first.origin.m2"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "mode": {
+                "instant": true
+            },
+            "origin": {
+                "address": [
+                    "127.0.0.1"
+                ],
+                "protocol": "http"
+            },
+            "name": "www.winesoft.co.kr.origin.m2"
+        },
+        {
+            "name": "www.winesoft.co.kr.first.origin.m2",
+            "fallbacks": {
+                "matchingList": [
+                    {
+                        "resCodes": [
+                            "4xx",
+                            "5xx"
+                        ],
+                        "pattern": "$URL[/(.*)]",
+                        "replace": "www.winesoft.co.kr.second.origin.m2/#1"
+                    }
+                ],
+                "enable": true
+            },
+            "mode": {
+                "instant": true
+            },
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "www.g2.com"
+                ]
+            },
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "www.winesoft.co.kr"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "www.winesoft.co.kr.second.origin.m2",
+            "mode": {
+                "instant": true
+            },
+            "origin": {
+                "protocol": "http",
+                "address": [
+                    "www.daum.net"
+                ]
+            },
+            "functions": {
+                "network": {
+                    "http": {
+                        "backEnd": {
+                            "headers": {
+                                "host": {
+                                    "enable": true,
+                                    "value": "www.winesoft.co.kr"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }
